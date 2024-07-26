@@ -23,6 +23,7 @@ namespace BluetoothSample
         {
             try
             {
+                Console.WriteLine("Botão de varredura clicado.");
                 if (!CrossBluetoothLE.Current.IsOn)
                 {
                     await DisplayAlert("Erro", "Bluetooth está desligado.", "OK");
@@ -35,6 +36,7 @@ namespace BluetoothSample
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Erro: {ex.Message}");
                 await DisplayAlert("Erro", ex.Message, "OK");
             }
         }
@@ -43,6 +45,7 @@ namespace BluetoothSample
         {
             try
             {
+                Console.WriteLine("Botão de conexão clicado.");
                 var selectedDevice = DevicesListView.SelectedItem as IDevice;
                 if (selectedDevice != null)
                 {
@@ -56,6 +59,7 @@ namespace BluetoothSample
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Erro: {ex.Message}");
                 await DisplayAlert("Erro", ex.Message, "OK");
             }
         }
@@ -64,6 +68,7 @@ namespace BluetoothSample
         {
             try
             {
+                Console.WriteLine("Botão de impressão clicado.");
                 var selectedDevice = DevicesListView.SelectedItem as IDevice;
                 if (selectedDevice != null)
                 {
@@ -77,6 +82,7 @@ namespace BluetoothSample
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Erro: {ex.Message}");
                 await DisplayAlert("Erro", ex.Message, "OK");
             }
         }

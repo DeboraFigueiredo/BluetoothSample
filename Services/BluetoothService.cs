@@ -23,12 +23,12 @@ public class BluetoothService
 
     private void OnDeviceDiscovered(object sender, DeviceEventArgs e)
     {
+        Console.WriteLine($"Dispositivo encontrado: {e.Device.Name} ({e.Device.Id})");
         if (!Devices.Contains(e.Device))
         {
             Devices.Add(e.Device);
         }
     }
-
     public async Task StartScanningAsync()
     {
         if (!_bluetoothLE.IsOn)
@@ -38,16 +38,20 @@ public class BluetoothService
         }
 
         Devices.Clear();
+        Console.WriteLine("Iniciando varredura de dispositivos...");
         await _adapter.StartScanningForDevicesAsync();
     }
 
+
     public async Task ConnectToDeviceAsync(IDevice device)
     {
+        Console.WriteLine($"Conectando ao dispositivo: {device.Name} ({device.Id})");
         await _adapter.ConnectToDeviceAsync(device);
     }
 
     public async Task DisconnectDeviceAsync(IDevice device)
     {
+        Console.WriteLine($"Desconectando do dispositivo: {device.Name} ({device.Id})");
         await _adapter.DisconnectDeviceAsync(device);
     }
 
@@ -60,9 +64,11 @@ public class BluetoothService
         {
             var data = Encoding.UTF8.GetBytes("This is a test print page.");
             await characteristic.WriteAsync(data);
+            Console.WriteLine("Página de teste enviada para a impressora.");
         }
         else
         {
+            Console.WriteLine("A característica de impressão não foi encontrada.");
             throw new Exception("A característica de impressão não foi encontrada.");
         }
     }

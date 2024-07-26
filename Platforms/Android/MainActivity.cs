@@ -28,7 +28,8 @@ namespace BluetoothSample
 
             if ((int)Build.VERSION.SdkInt >= 31)
             {
-                if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.BluetoothScan) != (int)Permission.Granted)
+                if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.BluetoothScan) != (int)Permission.Granted ||
+                    ContextCompat.CheckSelfPermission(this, Manifest.Permission.BluetoothConnect) != (int)Permission.Granted)
                 {
                     ActivityCompat.RequestPermissions(this, Permissions, RequestLocationId);
                 }
@@ -46,10 +47,12 @@ namespace BluetoothSample
                         if (grantResults.Length > 0 && grantResults[0] == (int)Permission.Granted)
                         {
                             // Permissão concedida 
+                            Console.WriteLine("Permissão de Bluetooth concedida.");
                         }
                         else
                         {
                             // Permissão negada 
+                            Console.WriteLine("Permissão de Bluetooth negada.");
                         }
                     }
                     break;
