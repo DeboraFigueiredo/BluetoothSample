@@ -3,6 +3,7 @@ using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.EventArgs;
 using System;
 using System.Collections.ObjectModel;
+using System.Text;
 using System.Threading.Tasks;
 
 public class BluetoothService
@@ -22,13 +23,11 @@ public class BluetoothService
 
     private void OnDeviceDiscovered(object sender, DeviceEventArgs e)
     {
-        // Verifique se o dispositivo já está na lista antes de adicionar
         if (!Devices.Contains(e.Device))
         {
             Devices.Add(e.Device);
         }
     }
-
 
     public async Task StartScanningAsync()
     {
@@ -42,7 +41,6 @@ public class BluetoothService
         await _adapter.StartScanningForDevicesAsync();
     }
 
-
     public async Task ConnectToDeviceAsync(IDevice device)
     {
         await _adapter.ConnectToDeviceAsync(device);
@@ -51,8 +49,21 @@ public class BluetoothService
     public async Task DisconnectDeviceAsync(IDevice device)
     {
         await _adapter.DisconnectDeviceAsync(device);
-
     }
 
+    public async Task PrintTestPageAsync(IDevice device)
+    {
+        var service = await device.GetServiceAsync(Guid.Parse("YOUR_SERVICE_UUID"));
+        var characteristic = await service.GetCharacteristicAsync(Guid.Parse("YOUR_CHARACTERISTIC_UUID"));
 
+        if (characteristic != null)
+        {
+            var data = Encoding.UTF8.GetBytes("This is a test print page.");
+            await characteristic.WriteAsync(data);
+        }
+        else
+        {
+            throw new Exception("A característica de impressão não foi encontrada.");
+        }
+    }
 }

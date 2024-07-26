@@ -23,14 +23,12 @@ namespace BluetoothSample
         {
             try
             {
-                // Verifique se o Bluetooth está ligado
                 if (!CrossBluetoothLE.Current.IsOn)
                 {
                     await DisplayAlert("Erro", "Bluetooth está desligado.", "OK");
                     return;
                 }
 
-                // Inicie a varredura e atualize a interface
                 await _bluetoothService.StartScanningAsync();
                 DevicesListView.ItemsSource = null;
                 DevicesListView.ItemsSource = _bluetoothService.Devices;
@@ -61,51 +59,26 @@ namespace BluetoothSample
                 await DisplayAlert("Erro", ex.Message, "OK");
             }
         }
-    }
 
-    public class BluetoothService
-    {
-        private readonly IAdapter _adapter;
-        private readonly IBluetoothLE _bluetoothLE;
-        public ObservableCollection<IDevice> Devices { get; private set; }
-
-        public BluetoothService()
+        private async void OnPrintButtonClicked(object sender, EventArgs e)
         {
-            _bluetoothLE = CrossBluetoothLE.Current;
-            _adapter = CrossBluetoothLE.Current.Adapter;
-            Devices = new ObservableCollection<IDevice>();
-
-            _adapter.DeviceDiscovered += OnDeviceDiscovered;
-        }
-
-        private void OnDeviceDiscovered(object sender, DeviceEventArgs e)
-        {
-            // Adicione o dispositivo se ainda não estiver na lista
-            if (!Devices.Contains(e.Device))
+            try
             {
-                Devices.Add(e.Device);
+                var selectedDevice = DevicesListView.SelectedItem as IDevice;
+                if (selectedDevice != null)
+                {
+                    await _bluetoothService.PrintTestPageAsync(selectedDevice);
+                    await DisplayAlert("Impressão", "Página de teste enviada para a impressora.", "OK");
+                }
+                else
+                {
+                    await DisplayAlert("Erro", "Nenhum dispositivo selecionado.", "OK");
+                }
             }
-        }
-
-        public async Task StartScanningAsync()
-        {
-            if (!_bluetoothLE.IsOn)
+            catch (Exception ex)
             {
-                throw new Exception("Bluetooth está desligado.");
+                await DisplayAlert("Erro", ex.Message, "OK");
             }
-
-            Devices.Clear();
-            await _adapter.StartScanningForDevicesAsync();
-        }
-
-        public async Task ConnectToDeviceAsync(IDevice device)
-        {
-            await _adapter.ConnectToDeviceAsync(device);
-        }
-
-        public async Task DisconnectDeviceAsync(IDevice device)
-        {
-            await _adapter.DisconnectDeviceAsync(device);
         }
     }
 }

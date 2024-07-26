@@ -1,10 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BluetoothSample.MainPage">
+             x:Class="BluetoothSample.MainPage"
+             BackgroundColor="Black">
 
-    <StackLayout>
-        <Button Text="Scan for Devices" Clicked="OnScanButtonClicked"/>
+    <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+        <Frame BorderColor="Gray" CornerRadius="10" Padding="10" Margin="10">
+            <StackLayout Spacing="10">
+                <Button Text="Procurar dispositivos" Clicked="OnScanButtonClicked"/>
+                <Button Text="Conectar ao dispositivo selecionado" Clicked="OnConnectButtonClicked"/>
+                <Button Text="Imprimir" Clicked="OnPrintButtonClicked"/>
+            </StackLayout>
+        </Frame>
         <ListView x:Name="DevicesListView" ItemsSource="{Binding Devices}">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -12,7 +19,6 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Button Text="Connect to Selected Device" Clicked="OnConnectButtonClicked"/>
     </StackLayout>
 
 </ContentPage>
