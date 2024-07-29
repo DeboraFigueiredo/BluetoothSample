@@ -23,20 +23,17 @@ public class BluetoothService
 
     private void OnDeviceDiscovered(object sender, DeviceEventArgs e)
     {
-        string deviceName = string.IsNullOrEmpty(e.Device.Name) ? "Desconhecido" : e.Device.Name;
-
-        Console.WriteLine($"Dispositivo encontrado: {deviceName} ({e.Device.Id})");
+        Console.WriteLine($"Dispositivo encontrado: {e.Device.Name} ({e.Device.Id})");
         if (!Devices.Contains(e.Device))
         {
             Devices.Add(e.Device);
         }
     }
-
     public async Task StartScanningAsync()
     {
         if (!_bluetoothLE.IsOn)
         {
-            await Application.Current.MainPage.DisplayAlert("Bluetooth Desligado", "Por favor, ative o Bluetooth para continuar.", "Ok");
+            await Application.Current.MainPage.DisplayAlert("Bluetooth Desligado", "Por favor, ative o Bluetooth para continuar.", "OK");
             return;
         }
 

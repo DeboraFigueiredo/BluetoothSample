@@ -17,13 +17,6 @@ namespace BluetoothSample
             InitializeComponent();
             _bluetoothService = new BluetoothService();
             BindingContext = _bluetoothService;
-
-            // Atualiza a lista de dispositivos
-            _bluetoothService.Devices.CollectionChanged += (s, e) =>
-            {
-                DevicesListView.ItemsSource = null;
-                DevicesListView.ItemsSource = _bluetoothService.Devices;
-            };
         }
 
         private async void OnScanButtonClicked(object sender, EventArgs e)
@@ -38,7 +31,6 @@ namespace BluetoothSample
                 }
 
                 await _bluetoothService.StartScanningAsync();
-                // Atualiza a lista após a varredura
                 DevicesListView.ItemsSource = null;
                 DevicesListView.ItemsSource = _bluetoothService.Devices;
             }
