@@ -23,12 +23,15 @@ public class BluetoothService
 
     private void OnDeviceDiscovered(object sender, DeviceEventArgs e)
     {
-        Console.WriteLine($"Dispositivo encontrado: {e.Device.Name} ({e.Device.Id})");
+        string deviceName = string.IsNullOrEmpty(e.Device.Name) ? "Desconhecido" : e.Device.Name;
+
+        Console.WriteLine($"Dispositivo encontrado: {deviceName} ({e.Device.Id})");
         if (!Devices.Contains(e.Device))
         {
             Devices.Add(e.Device);
         }
     }
+
     public async Task StartScanningAsync()
     {
         if (!_bluetoothLE.IsOn)

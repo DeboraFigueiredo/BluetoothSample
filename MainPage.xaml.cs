@@ -33,6 +33,8 @@ namespace BluetoothSample
                 await _bluetoothService.StartScanningAsync();
                 DevicesListView.ItemsSource = null;
                 DevicesListView.ItemsSource = _bluetoothService.Devices;
+
+                DevicesListView.EndRefresh();
             }
             catch (Exception ex)
             {
@@ -40,6 +42,7 @@ namespace BluetoothSample
                 await DisplayAlert("Erro", ex.Message, "OK");
             }
         }
+
 
         private async void OnConnectButtonClicked(object sender, EventArgs e)
         {
