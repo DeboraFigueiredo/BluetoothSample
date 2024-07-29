@@ -36,7 +36,7 @@ public class BluetoothService
     {
         if (!_bluetoothLE.IsOn)
         {
-            await Application.Current.MainPage.DisplayAlert("Bluetooth Desligado", "Por favor, ative o Bluetooth para continuar.", "OK");
+            await Application.Current.MainPage.DisplayAlert("Bluetooth Desligado", "Por favor, ative o Bluetooth para continuar.", "Ok");
             return;
         }
 
